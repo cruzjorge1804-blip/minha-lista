@@ -1,27 +1,16 @@
-// ============================================================
-// 1) CONFIGURAÇÃO DO FIREBASE
-// Troque os valores abaixo pelos do SEU projeto Firebase.
-// Você encontra isso em: Configurações do projeto > Geral >
-// "Seus apps" > ícone Web (</>) > firebaseConfig
-// ============================================================
-const firebaseConfig = {
-  apiKey: "AIzaSyCTRY6opxUv3IBQT_VHPpNqG543EhDW-Hk",
-  authDomain: "novo-app-3d354.firebaseapp.com",
-  databaseURL: "https://novo-app-3d354-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "novo-app-3d354",
-  storageBucket: "novo-app-3d354.firebasestorage.app",
-  messagingSenderId: "747833469752",
-  appId: "1:747833469752:web:0035c7a2927753e25c6fcd"
-};
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-  getAuth,
+  auth,
+  db,
+  colorForName,
+  initials,
+  getSavedName,
+  saveName
+} from "./firebase-config.js";
+import {
   signInAnonymously,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
-  getFirestore,
   collection,
   addDoc,
   updateDoc,
@@ -30,28 +19,10 @@ import {
   onSnapshot,
   query,
   orderBy,
-  serverTimestamp,
-  disableNetwork,
-  enableNetwork
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
 const itemsRef = collection(db, "items");
-
-// ---------- Cores fixas para as etiquetas de nome ----------
-const AVATAR_COLORS = ["#FF6B4A", "#3F6B57", "#D9A441", "#5B6BB5", "#B5566B", "#4A8B8C"];
-
-function colorForName(name) {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
-}
-
-function initials(name) {
-  return name.trim().slice(0, 2).toUpperCase();
-}
 
 // ---------- Elementos ----------
 const nameGate = document.getElementById("name-gate");
@@ -64,15 +35,6 @@ const emptyState = document.getElementById("empty-state");
 const addForm = document.getElementById("add-form");
 const itemInput = document.getElementById("item-input");
 const statusBanner = document.getElementById("status-banner");
-
-// ---------- Nome do usuário (guardado no aparelho) ----------
-function getSavedName() {
-  return localStorage.getItem("lista-nome");
-}
-
-function saveName(name) {
-  localStorage.setItem("lista-nome", name);
-}
 
 function paintWhoAmI() {
   const name = getSavedName();

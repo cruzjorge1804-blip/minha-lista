@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#1B2340" />
-  <title>Lista Compartilhada</title>
+  <title>Hábitos — Lista Compartilhada</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon-192.png" />
   <link rel="apple-touch-icon" href="icon-192.png" />
@@ -17,15 +17,15 @@
 </head>
 <body>
 
-  <!-- Overlay: pede o nome antes de usar a lista -->
+  <!-- Overlay: pede o nome antes de usar (mesmo mecanismo da lista) -->
   <div id="name-gate" class="overlay">
     <div class="overlay-card">
       <p class="eyebrow">antes de começar</p>
       <h1>Como podemos te chamar?</h1>
-      <p class="overlay-hint">Seu nome aparece ao lado do que você adicionar ou marcar, pra todo mundo do grupo saber quem fez o quê.</p>
+      <p class="overlay-hint">Seu nome aparece marcado nos dias em que você completar cada hábito.</p>
       <form id="name-form">
         <input id="name-input" type="text" maxlength="24" placeholder="Seu nome" autocomplete="name" required />
-        <button type="submit">Entrar na lista</button>
+        <button type="submit">Entrar</button>
       </form>
     </div>
   </div>
@@ -33,33 +33,40 @@
   <div id="app" class="app hidden">
     <header class="app-header">
       <div class="header-text">
-        <p class="eyebrow">lista compartilhada</p>
-        <h1>Combinados</h1>
+        <p class="eyebrow">acompanhamento diário</p>
+        <h1>Hábitos</h1>
       </div>
       <button id="who-am-i" class="avatar-tag" title="Trocar nome"></button>
     </header>
 
     <nav class="page-nav">
-      <a href="index.html" class="page-nav-link active">Lista</a>
-      <a href="habits.html" class="page-nav-link">Hábitos</a>
+      <a href="index.html" class="page-nav-link">Lista</a>
+      <a href="habits.html" class="page-nav-link active">Hábitos</a>
     </nav>
 
     <p id="status-banner" class="status-banner hidden"></p>
 
     <main class="list-wrap">
-      <ul id="item-list" class="item-list"></ul>
+      <div class="month-switcher">
+        <button id="prev-month" class="month-btn" aria-label="Mês anterior">‹</button>
+        <p id="month-label" class="month-label"></p>
+        <button id="next-month" class="month-btn" aria-label="Próximo mês">›</button>
+      </div>
+
+      <div id="habit-list" class="habit-list"></div>
+
       <div id="empty-state" class="empty-state hidden">
-        <p class="eyebrow">tudo limpo</p>
-        <p>Nada por aqui ainda. Adicione o primeiro item abaixo.</p>
+        <p class="eyebrow">nenhum hábito ainda</p>
+        <p>Adicione o primeiro hábito abaixo para começar a acompanhar.</p>
       </div>
     </main>
 
     <form id="add-form" class="add-bar">
-      <input id="item-input" type="text" placeholder="Adicionar item..." autocomplete="off" maxlength="200" required />
+      <input id="habit-input" type="text" placeholder="Novo hábito (ex: beber água)..." autocomplete="off" maxlength="60" required />
       <button type="submit" aria-label="Adicionar">+</button>
     </form>
   </div>
 
-  <script type="module" src="app.js"></script>
+  <script type="module" src="habits.js"></script>
 </body>
 </html>

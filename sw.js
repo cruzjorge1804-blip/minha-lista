@@ -1,8 +1,11 @@
-const CACHE_NAME = "lista-shell-v1";
+const CACHE_NAME = "lista-shell-v2";
 const SHELL_FILES = [
   "./index.html",
+  "./habits.html",
   "./style.css",
   "./app.js",
+  "./habits.js",
+  "./firebase-config.js",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png"
