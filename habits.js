@@ -41,7 +41,6 @@ const monthLabel = document.getElementById("month-label");
 const prevMonthBtn = document.getElementById("prev-month");
 const nextMonthBtn = document.getElementById("next-month");
 
-const WEEKDAYS = ["D", "S", "T", "Q", "Q", "S", "S"];
 const MONTH_NAMES = [
   "janeiro", "fevereiro", "março", "abril", "maio", "junho",
   "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
@@ -233,6 +232,11 @@ function buildHabitCard(habit) {
   head.appendChild(name);
   head.appendChild(deleteBtn);
   card.appendChild(head);
+
+  const divider = document.createElement("div");
+  divider.className = "habit-divider";
+  card.appendChild(divider);
+
   card.appendChild(buildCalendarGrid(habit));
 
   return card;
@@ -241,13 +245,6 @@ function buildHabitCard(habit) {
 function buildCalendarGrid(habit) {
   const grid = document.createElement("div");
   grid.className = "calendar-grid";
-
-  for (const w of WEEKDAYS) {
-    const wEl = document.createElement("div");
-    wEl.className = "calendar-weekday";
-    wEl.textContent = w;
-    grid.appendChild(wEl);
-  }
 
   const firstWeekday = new Date(viewYear, viewMonth, 1).getDay();
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
@@ -275,6 +272,13 @@ function buildCalendarGrid(habit) {
     num.className = "calendar-day-num";
     num.textContent = day;
     cell.appendChild(num);
+
+    if (meDone) {
+      const check = document.createElement("span");
+      check.className = "calendar-day-check";
+      check.textContent = "✓";
+      cell.appendChild(check);
+    }
 
     if (people.length > 0) {
       const dots = document.createElement("span");

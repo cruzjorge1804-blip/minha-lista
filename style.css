@@ -151,6 +151,29 @@ button:focus-visible {
   flex-shrink: 0;
 }
 
+/* ---------- Navegação entre páginas ---------- */
+.page-nav {
+  display: flex;
+  gap: 4px;
+  padding: 0 20px 12px;
+}
+
+.page-nav-link {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-decoration: none;
+  color: var(--ink-soft);
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+}
+
+.page-nav-link.active {
+  background: var(--ink);
+  color: white;
+  border-color: var(--ink);
+}
+
 .status-banner {
   font-family: var(--font-mono);
   font-size: 12px;
@@ -303,6 +326,159 @@ button:focus-visible {
   font-size: 22px;
   cursor: pointer;
   flex-shrink: 0;
+}
+
+/* ---------- Hábitos: seletor de mês ---------- */
+.month-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 14px;
+}
+
+.month-label {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.month-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* ---------- Hábitos: cartões ---------- */
+.habit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.habit-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.habit-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.habit-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.habit-delete {
+  border: none;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.habit-divider {
+  height: 1px;
+  background: var(--line);
+  margin: 12px 0 14px;
+}
+
+/* ---------- Hábitos: grade do calendário ---------- */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 3px;
+  position: relative;
+}
+
+.calendar-day.empty {
+  border: none;
+  background: transparent;
+  cursor: default;
+}
+
+.calendar-day.future {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.calendar-day.today {
+  border-color: var(--ink);
+  border-width: 2px;
+}
+
+.calendar-day-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.calendar-day.me-done {
+  background: var(--done);
+  border-color: var(--done);
+}
+
+.calendar-day.me-done .calendar-day-num {
+  display: none;
+}
+
+.calendar-day-check {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.calendar-dots {
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  justify-content: center;
+}
+
+.calendar-day.me-done .calendar-dots {
+  bottom: 2px;
+}
+
+.calendar-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid var(--card);
 }
 
 @media (prefers-reduced-motion: reduce) {
