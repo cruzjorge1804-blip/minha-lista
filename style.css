@@ -8,9 +8,9 @@
   --accent-soft: #FFE4DB;
   --done: #3F6B57;
   --radius: 14px;
-  --font-display: "Fraunces", serif;
-  --font-body: "Inter", -apple-system, sans-serif;
-  --font-mono: "IBM Plex Mono", monospace;
+  --font-display: "Fraunces", "Noto Sans JP", serif;
+  --font-body: "Inter", "Noto Sans JP", -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", "Noto Sans JP", monospace;
 }
 
 * { box-sizing: border-box; }
@@ -403,6 +403,18 @@ button:focus-visible {
   gap: 6px;
 }
 
+.calendar-weekday {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  color: var(--ink-soft);
+  padding-bottom: 4px;
+}
+
+.calendar-weekday.sun { color: #C1443C; }
+.calendar-weekday.sat { color: #3D6FB4; }
+
 .calendar-day {
   aspect-ratio: 1;
   border-radius: 9px;
@@ -437,6 +449,9 @@ button:focus-visible {
   font-size: 12px;
   color: var(--ink-soft);
 }
+
+.calendar-day.sun .calendar-day-num { color: #C1443C; }
+.calendar-day.sat .calendar-day-num { color: #3D6FB4; }
 
 .calendar-day.me-done {
   background: var(--done);

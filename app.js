@@ -41,7 +41,7 @@ function paintWhoAmI() {
   if (!name) return;
   whoAmI.textContent = initials(name);
   whoAmI.style.background = colorForName(name);
-  whoAmI.title = `Você: ${name} — toque para trocar`;
+  whoAmI.title = `あなた: ${name} — タップで変更`;
 }
 
 function showApp() {
@@ -66,7 +66,7 @@ nameForm.addEventListener("submit", (e) => {
 
 whoAmI.addEventListener("click", () => {
   const current = getSavedName() || "";
-  const next = prompt("Trocar nome:", current);
+  const next = prompt("名前を変更:", current);
   if (next && next.trim()) {
     saveName(next.trim());
     paintWhoAmI();
@@ -75,7 +75,7 @@ whoAmI.addEventListener("click", () => {
 
 // ---------- Autenticação anônima ----------
 signInAnonymously(auth).catch((err) => {
-  showStatus("Não foi possível conectar. Confira a configuração do Firebase.");
+  showStatus("接続できませんでした。Firebaseの設定を確認してください。");
   console.error(err);
 });
 
@@ -93,7 +93,7 @@ function hideStatus() {
   statusBanner.classList.add("hidden");
 }
 
-window.addEventListener("offline", () => showStatus("Sem conexão — mostrando a última versão salva."));
+window.addEventListener("offline", () => showStatus("オフラインです — 保存された最新のバージョンを表示しています。"));
 window.addEventListener("online", () => hideStatus());
 
 // ---------- Lista em tempo real ----------
@@ -105,7 +105,7 @@ function startListening() {
       renderItems(snapshot.docs);
     },
     (err) => {
-      showStatus("Erro ao sincronizar a lista.");
+      showStatus("リストの同期エラーが発生しました。");
       console.error(err);
     }
   );
@@ -132,7 +132,7 @@ function buildItemRow(id, item) {
 
   const checkBtn = document.createElement("button");
   checkBtn.className = "check-btn";
-  checkBtn.setAttribute("aria-label", item.done ? "Desmarcar" : "Marcar como feito");
+  checkBtn.setAttribute("aria-label", item.done ? "チェックを外す" : "完了にする");
   checkBtn.textContent = item.done ? "✓" : "";
   checkBtn.addEventListener("click", () => toggleDone(id, item));
 
@@ -147,7 +147,7 @@ function buildItemRow(id, item) {
   meta.className = "item-meta";
 
   const who = item.done ? item.doneByName : item.addedByName;
-  const action = item.done ? "concluído por" : "adicionado por";
+  const action = item.done ? "完了" : "追加";
 
   if (who) {
     const dot = document.createElement("span");
@@ -156,7 +156,7 @@ function buildItemRow(id, item) {
     meta.appendChild(dot);
 
     const label = document.createElement("span");
-    label.textContent = `${action} ${who}`;
+    label.textContent = `${who}が${action}`;
     meta.appendChild(label);
   }
 
@@ -165,7 +165,7 @@ function buildItemRow(id, item) {
 
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete-btn";
-  deleteBtn.setAttribute("aria-label", "Remover item");
+  deleteBtn.setAttribute("aria-label", "アイテムを削除");
   deleteBtn.textContent = "×";
   deleteBtn.addEventListener("click", () => removeItem(id));
 
@@ -177,7 +177,7 @@ function buildItemRow(id, item) {
 
 // ---------- Ações ----------
 async function toggleDone(id, item) {
-  const name = getSavedName() || "Alguém";
+  const name = getSavedName() || "だれか";
   try {
     await updateDoc(doc(db, "items", id), {
       done: !item.done,
@@ -185,7 +185,7 @@ async function toggleDone(id, item) {
       doneAt: !item.done ? serverTimestamp() : null
     });
   } catch (err) {
-    showStatus("Não foi possível salvar essa alteração agora.");
+    showStatus("この変更を保存できませんでした。");
     console.error(err);
   }
 }
@@ -194,7 +194,7 @@ async function removeItem(id) {
   try {
     await deleteDoc(doc(db, "items", id));
   } catch (err) {
-    showStatus("Não foi possível remover esse item agora.");
+    showStatus("このアイテムを削除できませんでした。");
     console.error(err);
   }
 }
@@ -203,7 +203,7 @@ addForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const text = itemInput.value.trim();
   if (!text) return;
-  const name = getSavedName() || "Alguém";
+  const name = getSavedName() || "だれか";
 
   itemInput.value = "";
   try {
@@ -214,7 +214,7 @@ addForm.addEventListener("submit", async (e) => {
       createdAt: serverTimestamp()
     });
   } catch (err) {
-    showStatus("Não foi possível adicionar o item agora.");
+    showStatus("アイテムを追加できませんでした。");
     console.error(err);
   }
 });

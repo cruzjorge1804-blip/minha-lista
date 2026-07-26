@@ -41,10 +41,7 @@ const monthLabel = document.getElementById("month-label");
 const prevMonthBtn = document.getElementById("prev-month");
 const nextMonthBtn = document.getElementById("next-month");
 
-const MONTH_NAMES = [
-  "janeiro", "fevereiro", "março", "abril", "maio", "junho",
-  "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
-];
+const WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
 
 function pad2(n) {
   return String(n).padStart(2, "0");
@@ -60,7 +57,7 @@ function todayStr() {
 }
 
 function slug(name) {
-  return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  return encodeURIComponent(name.trim().toLowerCase()).replace(/%/g, "_");
 }
 
 // ---------- Nome do usuário ----------
@@ -69,7 +66,7 @@ function paintWhoAmI() {
   if (!name) return;
   whoAmI.textContent = initials(name);
   whoAmI.style.background = colorForName(name);
-  whoAmI.title = `Você: ${name} — toque para trocar`;
+  whoAmI.title = `あなた: ${name} — タップで変更`;
 }
 
 function showApp() {
@@ -94,7 +91,7 @@ nameForm.addEventListener("submit", (e) => {
 
 whoAmI.addEventListener("click", () => {
   const current = getSavedName() || "";
-  const next = prompt("Trocar nome:", current);
+  const next = prompt("名前を変更:", current);
   if (next && next.trim()) {
     saveName(next.trim());
     paintWhoAmI();
@@ -110,12 +107,12 @@ function showStatus(msg) {
 function hideStatus() {
   statusBanner.classList.add("hidden");
 }
-window.addEventListener("offline", () => showStatus("Sem conexão — mostrando a última versão salva."));
+window.addEventListener("offline", () => showStatus("オフラインです — 保存された最新のバージョンを表示しています。"));
 window.addEventListener("online", () => hideStatus());
 
 // ---------- Autenticação ----------
 signInAnonymously(auth).catch((err) => {
-  showStatus("Não foi possível conectar. Confira a configuração do Firebase.");
+  showStatus("接続できませんでした。Firebaseの設定を確認してください。");
   console.error(err);
 });
 
@@ -135,7 +132,7 @@ let logsByHabitAndDate = {}; // { habitId: { dateStr: [personName, ...] } }
 let unsubscribeLogs = null;
 
 function updateMonthLabel() {
-  monthLabel.textContent = `${MONTH_NAMES[viewMonth]} de ${viewYear}`;
+  monthLabel.textContent = `${viewYear}年${viewMonth + 1}月`;
 }
 updateMonthLabel();
 
@@ -163,7 +160,7 @@ function listenHabits() {
       renderAll();
     },
     (err) => {
-      showStatus("Erro ao sincronizar os hábitos.");
+      showStatus("習慣の同期エラーが発生しました。");
       console.error(err);
     }
   );
@@ -191,7 +188,7 @@ function listenLogsForMonth() {
       renderAll();
     },
     (err) => {
-      showStatus("Erro ao sincronizar o calendário.");
+      showStatus("カレンダーの同期エラーが発生しました。");
       console.error(err);
     }
   );
@@ -225,7 +222,7 @@ function buildHabitCard(habit) {
 
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "habit-delete";
-  deleteBtn.setAttribute("aria-label", "Remover hábito");
+  deleteBtn.setAttribute("aria-label", "習慣を削除");
   deleteBtn.textContent = "×";
   deleteBtn.addEventListener("click", () => removeHabit(habit.id));
 
@@ -246,6 +243,13 @@ function buildCalendarGrid(habit) {
   const grid = document.createElement("div");
   grid.className = "calendar-grid";
 
+  for (let i = 0; i < WEEKDAYS.length; i++) {
+    const wEl = document.createElement("div");
+    wEl.className = "calendar-weekday" + (i === 0 ? " sun" : i === 6 ? " sat" : "");
+    wEl.textContent = WEEKDAYS[i];
+    grid.appendChild(wEl);
+  }
+
   const firstWeekday = new Date(viewYear, viewMonth, 1).getDay();
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
   const myName = getSavedName();
@@ -260,13 +264,18 @@ function buildCalendarGrid(habit) {
   for (let day = 1; day <= daysInMonth; day++) {
     const ds = dateStr(viewYear, viewMonth, day);
     const isFuture = ds > t;
+    const weekdayIdx = new Date(viewYear, viewMonth, day).getDay();
     const people = (logsByHabitAndDate[habit.id] && logsByHabitAndDate[habit.id][ds]) || [];
     const meDone = myName && people.includes(myName);
 
     const cell = document.createElement("button");
-    cell.className = "calendar-day" + (isFuture ? " future" : "") + (ds === t ? " today" : "") + (meDone ? " me-done" : "");
+    cell.className = "calendar-day"
+      + (isFuture ? " future" : "")
+      + (ds === t ? " today" : "")
+      + (meDone ? " me-done" : "")
+      + (weekdayIdx === 0 ? " sun" : weekdayIdx === 6 ? " sat" : "");
     cell.disabled = isFuture;
-    cell.setAttribute("aria-label", `${day} — ${people.length} pessoa(s) concluíram`);
+    cell.setAttribute("aria-label", `${day}日 — ${people.length}人が達成`);
 
     const num = document.createElement("span");
     num.className = "calendar-day-num";
@@ -304,7 +313,7 @@ function buildCalendarGrid(habit) {
 
 // ---------- Ações ----------
 async function toggleDay(habitId, ds) {
-  const name = getSavedName() || "Alguém";
+  const name = getSavedName() || "だれか";
   const logId = `${habitId}_${ds}_${slug(name)}`;
   const already = (logsByHabitAndDate[habitId] && logsByHabitAndDate[habitId][ds] || []).includes(name);
 
@@ -320,7 +329,7 @@ async function toggleDay(habitId, ds) {
       });
     }
   } catch (err) {
-    showStatus("Não foi possível salvar essa marcação agora.");
+    showStatus("この記録を保存できませんでした。");
     console.error(err);
   }
 }
@@ -329,7 +338,7 @@ async function removeHabit(id) {
   try {
     await deleteDoc(doc(db, "habits", id));
   } catch (err) {
-    showStatus("Não foi possível remover esse hábito agora.");
+    showStatus("この習慣を削除できませんでした。");
     console.error(err);
   }
 }
@@ -338,7 +347,7 @@ addForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const name = habitInput.value.trim();
   if (!name) return;
-  const addedByName = getSavedName() || "Alguém";
+  const addedByName = getSavedName() || "だれか";
 
   habitInput.value = "";
   try {
@@ -348,7 +357,7 @@ addForm.addEventListener("submit", async (e) => {
       createdAt: serverTimestamp()
     });
   } catch (err) {
-    showStatus("Não foi possível adicionar o hábito agora.");
+    showStatus("習慣を追加できませんでした。");
     console.error(err);
   }
 });

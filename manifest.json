@@ -1,7 +1,8 @@
 {
-  "name": "Lista Compartilhada",
-  "short_name": "Lista",
-  "description": "Checklist compartilhado em tempo real para o grupo",
+  "name": "共有リスト",
+  "short_name": "リスト",
+  "description": "二人のための共有チェックリストと習慣トラッカー",
+  "lang": "ja",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

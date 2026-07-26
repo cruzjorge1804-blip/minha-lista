@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#1B2340" />
-  <title>Lista Compartilhada</title>
+  <title>共有リスト</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon-192.png" />
   <link rel="apple-touch-icon" href="icon-192.png" />
@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -20,12 +20,12 @@
   <!-- Overlay: pede o nome antes de usar a lista -->
   <div id="name-gate" class="overlay">
     <div class="overlay-card">
-      <p class="eyebrow">antes de começar</p>
-      <h1>Como podemos te chamar?</h1>
-      <p class="overlay-hint">Seu nome aparece ao lado do que você adicionar ou marcar, pra todo mundo do grupo saber quem fez o quê.</p>
+      <p class="eyebrow">始める前に</p>
+      <h1>お名前を教えてください</h1>
+      <p class="overlay-hint">追加したり完了したりすると、あなたの名前が表示されます。二人でお互いに分かるようにするためです。</p>
       <form id="name-form">
-        <input id="name-input" type="text" maxlength="24" placeholder="Seu nome" autocomplete="name" required />
-        <button type="submit">Entrar na lista</button>
+        <input id="name-input" type="text" maxlength="24" placeholder="お名前" autocomplete="name" required />
+        <button type="submit">リストに入る</button>
       </form>
     </div>
   </div>
@@ -33,15 +33,15 @@
   <div id="app" class="app hidden">
     <header class="app-header">
       <div class="header-text">
-        <p class="eyebrow">lista compartilhada</p>
-        <h1>Combinados</h1>
+        <p class="eyebrow">共有リスト</p>
+        <h1>リスト</h1>
       </div>
-      <button id="who-am-i" class="avatar-tag" title="Trocar nome"></button>
+      <button id="who-am-i" class="avatar-tag" title="名前を変更"></button>
     </header>
 
     <nav class="page-nav">
-      <a href="index.html" class="page-nav-link active">Lista</a>
-      <a href="habits.html" class="page-nav-link">Hábitos</a>
+      <a href="index.html" class="page-nav-link active">リスト</a>
+      <a href="habits.html" class="page-nav-link">習慣</a>
     </nav>
 
     <p id="status-banner" class="status-banner hidden"></p>
@@ -49,14 +49,14 @@
     <main class="list-wrap">
       <ul id="item-list" class="item-list"></ul>
       <div id="empty-state" class="empty-state hidden">
-        <p class="eyebrow">tudo limpo</p>
-        <p>Nada por aqui ainda. Adicione o primeiro item abaixo.</p>
+        <p class="eyebrow">すべて完了</p>
+        <p>まだ何もありません。下から最初のアイテムを追加してください。</p>
       </div>
     </main>
 
     <form id="add-form" class="add-bar">
-      <input id="item-input" type="text" placeholder="Adicionar item..." autocomplete="off" maxlength="200" required />
-      <button type="submit" aria-label="Adicionar">+</button>
+      <input id="item-input" type="text" placeholder="アイテムを追加..." autocomplete="off" maxlength="200" required />
+      <button type="submit" aria-label="追加">+</button>
     </form>
   </div>
 
