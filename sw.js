@@ -1,4 +1,4 @@
-const CACHE_NAME = "lista-shell-v5";
+const CACHE_NAME = "lista-shell-v6";
 const SHELL_FILES = [
   "./index.html",
   "./habits.html",

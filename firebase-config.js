@@ -24,8 +24,9 @@ export const db = getFirestore(app);
 export const AVATAR_COLORS = ["#FF6B4A", "#3F6B57", "#D9A441", "#5B6BB5", "#B5566B", "#4A8B8C"];
 
 export function colorForName(name) {
+  const normalized = name.trim().toLowerCase();
   let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  for (let i = 0; i < normalized.length; i++) hash = normalized.charCodeAt(i) + ((hash << 5) - hash);
   return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
 }
 
@@ -39,4 +40,8 @@ export function getSavedName() {
 
 export function saveName(name) {
   localStorage.setItem("lista-nome", name);
+}
+
+export function clearSavedName() {
+  localStorage.removeItem("lista-nome");
 }

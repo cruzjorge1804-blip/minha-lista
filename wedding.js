@@ -4,7 +4,8 @@ import {
   colorForName,
   initials,
   getSavedName,
-  saveName
+  saveName,
+  clearSavedName
 } from "./firebase-config.js";
 import {
   signInAnonymously,
@@ -81,12 +82,17 @@ nameForm.addEventListener("submit", (e) => {
 
 whoAmI.addEventListener("click", () => {
   const current = getSavedName() || "";
-  const next = prompt("名前を変更:", current);
-  if (next && next.trim()) {
-    saveName(next.trim());
-    paintWhoAmI();
-    renderAll();
+  const next = prompt("名前を変更（空欄でログアウト）:", current);
+  if (next === null) return;
+  const trimmed = next.trim();
+  if (trimmed === "") {
+    clearSavedName();
+    location.reload();
+    return;
   }
+  saveName(trimmed);
+  paintWhoAmI();
+  renderAll();
 });
 
 // ---------- Mostrar/ocultar formulário ----------

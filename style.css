@@ -121,11 +121,39 @@ button:focus-visible {
   margin: 0 auto;
 }
 
+.theme-banner {
+  background: var(--ink);
+  color: white;
+  padding: max(18px, env(safe-area-inset-top)) 20px 16px;
+}
+
+.theme-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 0 6px;
+}
+
+.theme-text {
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.theme-note {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--accent);
+  margin: 10px 0 0;
+}
+
 .app-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: max(20px, env(safe-area-inset-top)) 20px 14px;
+  padding: 20px 20px 14px;
 }
 
 .app-header h1 {
@@ -475,25 +503,26 @@ button:focus-visible {
 
 .calendar-dots {
   position: absolute;
-  bottom: 3px;
+  bottom: 4px;
   left: 0;
   right: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 1px;
+  gap: 2px;
   justify-content: center;
 }
 
 .calendar-day.me-done .calendar-dots {
-  bottom: 2px;
+  bottom: 3px;
 }
 
 .calendar-dot {
-  width: 4px;
-  height: 4px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
-  border: 1px solid var(--card);
+  border: 1.5px solid var(--card);
+  box-shadow: 0 0 0 1px rgba(27, 35, 64, 0.15);
 }
 
 @media (prefers-reduced-motion: reduce) {
