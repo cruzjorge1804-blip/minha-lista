@@ -188,7 +188,7 @@ button:focus-visible {
 .list-wrap {
   flex: 1;
   overflow-y: auto;
-  padding: 0 16px 16px;
+  padding: 0 16px max(16px, env(safe-area-inset-bottom));
 }
 
 .item-list {
@@ -498,4 +498,158 @@ button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .item-row { transition: none; }
+}
+
+/* ---------- Casamento: botão de adicionar / formulário ---------- */
+.toggle-add-btn {
+  width: 100%;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px dashed var(--line);
+  background: var(--card);
+  color: var(--ink);
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.milestone-form {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.milestone-form-row {
+  display: flex;
+  gap: 8px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.field-day {
+  flex: 0.7;
+}
+
+.field label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-soft);
+}
+
+.field select,
+.field input,
+.milestone-form input,
+.milestone-form textarea {
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  width: 100%;
+}
+
+.milestone-form textarea {
+  resize: vertical;
+  font-family: var(--font-body);
+}
+
+.milestone-form button[type="submit"] {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+/* ---------- Casamento: grupos por mês ---------- */
+.milestone-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.milestone-group-heading {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 10px 2px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.milestone-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.milestone-card.done {
+  background: var(--accent-soft);
+  border-color: transparent;
+}
+
+.milestone-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.milestone-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.milestone-date-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  background: var(--ink);
+  padding: 2px 7px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.milestone-title {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.milestone-card.done .milestone-title {
+  text-decoration: line-through;
+  color: var(--ink-soft);
+}
+
+.milestone-notes {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  margin: 6px 0 0;
 }
